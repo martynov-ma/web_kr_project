@@ -1,7 +1,43 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Request:index{% endblock %}
+{% block title %}Requests{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Request:index page</h1>
+    <div class="container-fluid">
+        <h1>Work requests</h1>
+        <table class="table table-responsive ">
+            <thead>
+                <th>Header</th>
+                <th>Text</th>
+                <th>Category</th>
+                <th>Executor</th>
+                <th>Execution date</th>
+                <th>Request status</th>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <th>Management</th>
+                {% endif %}
+            </thead>
+            <tbody>
+            {% for workRequest in workRequests %}
+                <tr>
+                    <td>{{ workRequest.header }}</td>
+                    <td>{{ workRequest.text }}</td>
+                    <td>{{ workRequest.category }}</td>
+                    <td>{{ workRequest.executor is empty ? "not specified" : workRequest.executor.username }}</td>
+                    <td>{{ workRequest.date is empty ? "not specified" : workRequest.date.format("d M Y")  }}</td>
+                    <td>{{ workRequest.status.name }}</td>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <td>
+                            <a href="request/edit/{{ workRequest.id }}" class="btn btn-primary">Edit</a>
+                            <a href="request/delete/{{ workRequest.id }}" class="btn btn-danger">Delete</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if is_granted("ROLE_USER") %}
+            <a href="{{ path('app_request_create') }}" class="btn btn-success">Add request</a>
+        {% endif %}
+    </div>
 {% endblock %}

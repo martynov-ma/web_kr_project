@@ -1,7 +1,12 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Request:edit{% endblock %}
+{% block title %}Edit request{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Request:edit page</h1>
+    <div class="col-md-5 col-md-offset-1">
+        <h1>Edit work request</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

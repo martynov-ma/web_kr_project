@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Request
+ * WorkRequest
  *
  * @ORM\Table(name="request")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RequestRepository")
  */
-class Request
+class WorkRequest
 {
     /**
      * @var int
@@ -45,19 +45,18 @@ class Request
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date")
+     * @ORM\Column(name="date", type="date", nullable=true)
      */
     private $date;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="performer", type="string", length=64)
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="executor_id", referencedColumnName="id", onDelete="SET NULL")
      */
-    private $performer;
+    private $executor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Status", inversedBy="requests")
+     * @ORM\ManyToOne(targetEntity="Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $status;
@@ -77,7 +76,7 @@ class Request
      *
      * @param string $header
      *
-     * @return Request
+     * @return WorkRequest
      */
     public function setHeader($header)
     {
@@ -101,7 +100,7 @@ class Request
      *
      * @param string $text
      *
-     * @return Request
+     * @return WorkRequest
      */
     public function setText($text)
     {
@@ -125,7 +124,7 @@ class Request
      *
      * @param string $category
      *
-     * @return Request
+     * @return WorkRequest
      */
     public function setCategory($category)
     {
@@ -149,7 +148,7 @@ class Request
      *
      * @param \DateTime $date
      *
-     * @return Request
+     * @return WorkRequest
      */
     public function setDate($date)
     {
@@ -171,13 +170,13 @@ class Request
     /**
      * Set performer
      *
-     * @param string $performer
+     * @param \AppBundle\Entity\User $executor
      *
-     * @return Request
+     * @return WorkRequest
      */
-    public function setPerformer($performer)
+    public function setExecutor(\AppBundle\Entity\User $executor = null)
     {
-        $this->performer = $performer;
+        $this->executor = $executor;
 
         return $this;
     }
@@ -185,11 +184,11 @@ class Request
     /**
      * Get performer
      *
-     * @return string
+     * @return \AppBundle\Entity\User
      */
-    public function getPerformer()
+    public function getExecutor()
     {
-        return $this->performer;
+        return $this->executor;
     }
 
     /**
@@ -197,7 +196,7 @@ class Request
      *
      * @param \AppBundle\Entity\Status $status
      *
-     * @return Request
+     * @return WorkRequest
      */
     public function setStatus(\AppBundle\Entity\Status $status = null)
     {

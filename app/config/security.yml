@@ -9,9 +9,7 @@ security:
                 class: AppBundle:User
                 property: username
         in_memory:
-            memory:
-                users:
-                    admin: { password: admin, roles: [ 'ROLE_ADMIN' ] }
+            memory: ~
 
     encoders:
             AppBundle\Entity\User: plaintext
@@ -30,6 +28,12 @@ security:
             logout:
                 path:   /logout
                 target: /
+
+    access_control:
+        - { path: /request/edit/.*, role: ROLE_ADMIN }
+        - { path: /request/delete/.*, role: ROLE_ADMIN }
+        - { path: /request/create*, role: [ ROLE_ADMIN, ROLE_USER ] }
+        - { path: /.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
             # activate different ways to authenticate
 
             # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
