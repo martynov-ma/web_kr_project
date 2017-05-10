@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Project{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/bootstrap.css') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+    <div class="container">
+        <div class="well col-md-3 col-md-offset-4">
+            {% if error %}
+                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <form action="{{ path('login') }}" method="post">
+                <input type="text" class="form-control" placeholder="Username" name="_username" />
+                <input type="password" class="form-control" placeholder="Password" name="_password" />
+                <button type="submit" class="btn btn-success">Log in</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
